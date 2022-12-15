@@ -1,5 +1,7 @@
 import { IProduct } from '../interfaces/IProduct'
 import { ProductRepository } from '../repositories/ProductRepository'
+import { TProduct } from '../types/TProduct'
+import { excludingField } from './ExcludingField'
 
 export class ProductService {
 
@@ -9,11 +11,19 @@ export class ProductService {
     this.productRepository = new ProductRepository()
   }
 
-  async create(product: IProduct){
+  async index(){
+    const result = await this.productRepository.index()
+
+    return result
+  }
+
+  async create(product: TProduct){
 
     const result = await this.productRepository.create(product)
 
-    return result
+    const dto = excludingField(result,['createdAt','updatedAt'])
+
+    return dto
   }
 
 

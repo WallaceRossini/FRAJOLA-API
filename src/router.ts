@@ -20,8 +20,13 @@ const upload = multer({
   })
 })
 
+// LIST PRODUCTS
+router.get('/products',productCtrl.index)
 // CREATE PRODUCT
 router.post('/products',upload.single('image'),productCtrl.create)
+
+// GET PRODUCTS BY CATEGORY
+router.get('/categories/:categoryId/products',categoryCtrl.listProductsByCategory)
 
 // LIST CATEGORIES
 router.get('/categories',categoryCtrl.index)

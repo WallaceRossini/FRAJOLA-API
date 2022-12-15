@@ -21,7 +21,7 @@ model Product {
   name        String
   description String
   image       String
-  price       Decimal  @db.Decimal(7, 2)
+  price       Float    @default(0.00)
   categoryId  Int
   createdAt   DateTime @default(now()) @db.Timestamp(6)
   updatedAt   DateTime @updatedAt

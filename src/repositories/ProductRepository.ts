@@ -1,22 +1,35 @@
 import { PrismaClient } from '@prisma/client'
 import { prismaClient } from '../config/prismaClient'
-import { IProduct } from '../interfaces/IProduct'
+
+import { TProduct } from '../types/TProduct'
 
 export class ProductRepository {
   private prisma: PrismaClient
 
-  constructor(){
+  constructor() {
     this.prisma = prismaClient
   }
 
-  async create({name,description,image,price,categoryId}:IProduct){
+  async index() {
+    const products = await this.prisma.product.findMany({ orderBy: { name: 'asc' } })
+
+    return products
+  }
+
+  async listProductsByCategory(categoryId: number) {
+    const products = await this.prisma.product.findMany({ where: { categoryId }, orderBy: { name: 'asc' } })
+
+    return products
+  }
+
+  async create({ name, description, image, price, categoryId }: TProduct) {
 
     const product = await this.prisma.product.create({
       data: {
         name,
         description,
         image,
-        price,
+        price: parseFloat(String(price)),
         categoryId: Number(categoryId)
       }
     })

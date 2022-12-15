@@ -13,6 +13,14 @@ export class CategoryController {
     return response.status(200).json(categories)
   }
 
+  async listProductsByCategory(request: Request, response: Response){
+    const {categoryId } = request.params
+
+    const products = await categoryService.listProductsByCategory(Number(categoryId))
+
+    return response.status(200).json(products)
+  }
+
   async create(request: Request, response: Response){
     const body: ICategory = request.body
 
